@@ -10,13 +10,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoRestControllerTests {
 
+	private DemoRestController demoRestController;
 	private MockMvc mockMvc;
 
 	@Autowired
@@ -24,13 +28,18 @@ public class DemoRestControllerTests {
 
 	@Before
 	public void setup() throws Exception {
+		this.demoRestController = new DemoRestController();
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
 	}
 
 	@Test
 	public void goodRoutingName() throws Exception {
-		mockMvc.perform(get(DemoRestController.ROUTING_NAME))
-        .andExpect(status().isOk());
+		this.mockMvc.perform(get(DemoRestController.GetRoutingName())).andExpect(status().isOk());
 	}
-	
+
+	@Test
+	public void nameEqualsMyName() throws Exception {
+		this.mockMvc.perform(get(DemoRestController.GetRoutingName())).andExpect(jsonPath("$", is(this.demoRestController.GetMyName())));
+	}
+
 }

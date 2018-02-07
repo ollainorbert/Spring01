@@ -28,13 +28,13 @@ public class DemoJSPControllerTests {
 
 	@Test
 	public void goodRoutingRoot() throws Exception {
-		mockMvc.perform(get(DemoJSPController.ROUTING_ROOT))
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingRoot()))
         .andExpect(status().isOk());
 	}
 	
 	@Test
 	public void goodRoutingInformation() throws Exception {
-		mockMvc.perform(get(DemoJSPController.ROUTING_INFORMATION))
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingInformation()))
         .andExpect(status().isOk());
 	}
 	

@@ -5,8 +5,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class DemoJSPController {
-	public final static String ROUTING_ROOT = "/";
-	public final static String ROUTING_INFORMATION = "/information";
+	private final static String ROUTING_ROOT = "/";
+	private final static String ROUTING_INFORMATION = "/information";
+	
+	public static String GetRoutingRoot() {
+		return ROUTING_ROOT;
+	}
+	
+	public static String GetRoutingInformation() {
+		return ROUTING_INFORMATION;
+	}
 	
 	@RequestMapping(ROUTING_ROOT)
 	public String index() {
