@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+<html>
 
 <head>
 </head>
 
 <body>
 
-hello
+<b>info</b>
 
 </body>
 

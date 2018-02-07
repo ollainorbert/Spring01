@@ -9,13 +9,13 @@ public class DemoJSPController {
 	private final static String JSP_POST_FIX = ".jsp";
 
 	@RequestMapping("/")
-	public String welcome() {
-		return DemoJSPController.jSPURLFormatter("welcome");
+	public String index() {
+		return DemoJSPController.jSPURLFormatter("index");
 	}
 	
-	@RequestMapping("/helo")
+	@RequestMapping("/information")
 	public String helo() {
-		return DemoJSPController.jSPURLFormatter("helo");
+		return DemoJSPController.jSPURLFormatter("information");
 	}
 	
 	private static String jSPURLFormatter(String fileName) {
