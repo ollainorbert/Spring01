@@ -30,13 +30,11 @@ public class DemoJSPController {
 	
 	@RequestMapping(ROUTING_ROOT)
 	public String index() {
-		logger.error("ROUTE: Root");
 		return "index";
 	}
 	
 	@RequestMapping(ROUTING_INFORMATION)
 	public String information() {
-		logger.info("ROUTE: Information");
 		return "information";
 	}
 }

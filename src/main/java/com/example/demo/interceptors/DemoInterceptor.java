@@ -26,8 +26,10 @@ public class DemoInterceptor extends HandlerInterceptorAdapter {
 		long startTime = (Long) request.getAttribute("startTime");
 		long elapsedTime = endTime - startTime;
 
-		logger.info("Request method: " + request.getMethod());
-		logger.info("Request URL: " + request.getRequestURL().toString());
-		logger.info(String.format("%s: %d %s", "Elapsed Time between handle and exit", elapsedTime, "ms"));
+		if(logger.isInfoEnabled()) {
+			logger.info("Request method: " + request.getMethod());
+			logger.info("Request URL: " + request.getRequestURL().toString());
+			logger.info(String.format("%s: %d %s", "Elapsed Time between handle and exit", elapsedTime, "ms"));
+		}	
 	}
 }
