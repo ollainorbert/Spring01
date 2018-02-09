@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest
 public class DemoRestControllerTests {
 
-	private DemoRestController demoRestController;
 	private MockMvc mockMvc;
 
 	@Autowired
@@ -28,7 +27,6 @@ public class DemoRestControllerTests {
 
 	@Before
 	public void setup() throws Exception {
-		this.demoRestController = new DemoRestController();
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
 	}
 
@@ -39,7 +37,7 @@ public class DemoRestControllerTests {
 
 	@Test
 	public void nameEqualsMyName() throws Exception {
-		this.mockMvc.perform(get(DemoRestController.GetRoutingName())).andExpect(jsonPath("$", is(this.demoRestController.GetMyName())));
+		this.mockMvc.perform(get(DemoRestController.GetRoutingName())).andExpect(jsonPath("$", is(DemoRestController.GetMyName())));
 	}
 
 }

@@ -12,7 +12,7 @@ public class DemoRestController {
 		return ROUTING_NAME;
 	}
 	
-	public String GetMyName() {
+	public static String GetMyName() {
 		return MY_NAME;
 	}
 	
