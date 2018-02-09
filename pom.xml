@@ -28,6 +28,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
+
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -41,17 +48,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-
-
-
-
 		<!-- Tomcat embedded container -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- JSTL for JSP -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -65,13 +68,20 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Need this to compile JSP,
-			tomcat-embed-jasper version is not working, no idea why -->
+		<!-- Need this to compile JSP, tomcat-embed-jasper version is not working, 
+			no idea why -->
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
 			<version>4.6.1</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+			<version>1.5.10.RELEASE</version>
 		</dependency>
 
 	</dependencies>
