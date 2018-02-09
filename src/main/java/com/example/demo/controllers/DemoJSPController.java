@@ -7,11 +7,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.loggers.LoggerLevelChecker;
+
 @Controller
 public class DemoJSPController {
-	private final static String ROUTING_ROOT = "/";
-	private final static String ROUTING_INFORMATION = "/information";
+	private DemoJSPController() {
+		LoggerLevelChecker.LogLoggerLevels(logger);
+	}
 	
+	private static final String ROUTING_ROOT = "/";
+	private static final String ROUTING_INFORMATION = "/information";
 	//private static final Logger logger = LogManager.getLogger(DemoJSPController.class);
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
 	
@@ -26,14 +31,6 @@ public class DemoJSPController {
 	@RequestMapping(ROUTING_ROOT)
 	public String index() {
 		logger.error("ROUTE: Root");
-		System.out.println(logger.isDebugEnabled()); // mindig false
-		System.out.println(logger.isTraceEnabled()); // mindig false
-		
-		System.out.println(logger.isErrorEnabled()); // mindig true
-		//System.out.println(logger.isFatalEnabled()); log4j-nel van, slf4j-nel nincs // mindig true
-		System.out.println(logger.isInfoEnabled());	// mindig true
-		System.out.println(logger.isWarnEnabled()); // mindig true
-		
 		return "index";
 	}
 	
