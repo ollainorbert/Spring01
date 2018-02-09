@@ -38,5 +38,23 @@ public class DemoJSPControllerTests {
         .andExpect(status().isOk());
 	}
 	
+	@Test
+	public void goodRoutingAdd() throws Exception {
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingAdd()))
+        .andExpect(status().isOk());
+	}
+	
+	@Test
+	public void goodRoutingAddResult() throws Exception {
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingAddResult()))
+        .andExpect(status().isOk());
+	}
+	
+	@Test
+	public void goodRoutingFullList() throws Exception {
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingFullList()))
+        .andExpect(status().isOk());
+	}
+	
 	
 }

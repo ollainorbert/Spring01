@@ -84,6 +84,16 @@
 			<version>1.5.10.RELEASE</version>
 		</dependency>
 
+
+
+
+
+		<!-- H2 Database -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -14,6 +14,7 @@ public class DemoInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		request.setAttribute(START_TIME_ID, System.currentTimeMillis());
 		// if returned false, we need to make sure 'response' is sent
 		return true;
@@ -22,12 +23,11 @@ public class DemoInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-
+		
 		if (logger.isInfoEnabled()) {
 			long endTime = System.currentTimeMillis();
 			long startTime = (Long) request.getAttribute(START_TIME_ID);
 			long elapsedTime = endTime - startTime;
-			
 			logger.info("Request method: " + request.getMethod());
 			logger.info("Request URL: " + request.getRequestURL().toString());
 			logger.info(String.format("%s: %d %s", "Elapsed Time between handle and exit", elapsedTime, "ms"));

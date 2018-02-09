@@ -17,8 +17,16 @@ public class DemoJSPController {
 	
 	private static final String ROUTING_ROOT = "/";
 	private static final String ROUTING_INFORMATION = "/information";
+	private static final String ROUTING_ADD = "/add";
+	private static final String ROUTING_ADD_RESULT = "/addResult";
+	private static final String ROUTING_FULL_LIST = "/fullList";
+	
 	private static final String JSP_INDEX = "index";
 	private static final String JSP_INFORMATION = "information";
+	private static final String JSP_ADD = "add";
+	private static final String JSP_ADD_RESULT = "addResult";
+	private static final String JSP_FULL_LIST = "fullList";
+	
 	//private static final Logger logger = LogManager.getLogger(DemoJSPController.class);
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
 	
@@ -30,6 +38,18 @@ public class DemoJSPController {
 		return ROUTING_INFORMATION;
 	}
 	
+	public static String GetRoutingAdd() {
+		return ROUTING_ADD;
+	}
+	
+	public static String GetRoutingAddResult() {
+		return ROUTING_ADD_RESULT;
+	}
+	
+	public static String GetRoutingFullList() {
+		return ROUTING_FULL_LIST;
+	}
+	
 	@RequestMapping(ROUTING_ROOT)
 	public String index() {
 		return JSP_INDEX;
@@ -38,5 +58,20 @@ public class DemoJSPController {
 	@RequestMapping(ROUTING_INFORMATION)
 	public String information() {
 		return JSP_INFORMATION;
+	}
+	
+	@RequestMapping(ROUTING_ADD)
+	public String add() {
+		return JSP_ADD;
+	}
+	
+	@RequestMapping(ROUTING_ADD_RESULT)
+	public String addResult() {
+		return JSP_ADD_RESULT;
+	}
+	
+	@RequestMapping(ROUTING_FULL_LIST)
+	public String fullList() {
+		return JSP_FULL_LIST;
 	}
 }

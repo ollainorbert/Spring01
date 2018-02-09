@@ -5,7 +5,9 @@
 </head>
 
 <body>
-	<b>info</b>
+
+<b>info</b>
+
 </body>
 
 </html>
