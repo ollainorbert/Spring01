@@ -17,6 +17,8 @@ public class DemoJSPController {
 	
 	private static final String ROUTING_ROOT = "/";
 	private static final String ROUTING_INFORMATION = "/information";
+	private static final String JSP_INDEX = "index";
+	private static final String JSP_INFORMATION = "information";
 	//private static final Logger logger = LogManager.getLogger(DemoJSPController.class);
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
 	
@@ -30,11 +32,11 @@ public class DemoJSPController {
 	
 	@RequestMapping(ROUTING_ROOT)
 	public String index() {
-		return "index";
+		return JSP_INDEX;
 	}
 	
 	@RequestMapping(ROUTING_INFORMATION)
 	public String information() {
-		return "information";
+		return JSP_INFORMATION;
 	}
 }
