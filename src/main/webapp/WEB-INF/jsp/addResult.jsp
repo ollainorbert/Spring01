@@ -13,7 +13,9 @@ public void jspInit()
 }
 
 @Autowired
-HumanJdbcRepository repo = new HumanJdbcRepository();
+HumanJdbcRepository repo;
+
+Logger logger = LoggerFactory.getLogger(this.getClass());
 %>
 
 <html>
@@ -25,8 +27,7 @@ HumanJdbcRepository repo = new HumanJdbcRepository();
 
 	<b>Result:</b>
 	<br>
-	<%
-		Logger logger = LoggerFactory.getLogger(this.getClass());
+	<%	
 		String name = request.getParameter("name");		
 		
 		if (name.trim().length() == 0) {			
@@ -48,11 +49,9 @@ HumanJdbcRepository repo = new HumanJdbcRepository();
 			}
 			else {
 				logger.info("No match, insert start");
-				// INSERT
 				Human newHuman = new Human(name);
-				//newHuman.setId(10004);
 				try {
-					repo.insert(newHuman);
+					repo.insertWithAutoId(newHuman);
 					logger.info("Insert done!");
 					%>
 					<b>Success!</b>

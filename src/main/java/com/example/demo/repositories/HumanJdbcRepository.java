@@ -20,6 +20,7 @@ public class HumanJdbcRepository {
 		Human human = null;
 
 		try {
+			// hibad dob ez a fereg
 			human = jdbcTemplate.queryForObject("select * from human where id=?", new Object[] { id },
 					new BeanPropertyRowMapper<Human>(Human.class));
 		} catch (EmptyResultDataAccessException e) {
@@ -41,19 +42,15 @@ public class HumanJdbcRepository {
 
 		return human;
 	}
-
-	public List<Human> findAll() {
-		return jdbcTemplate.queryForList("select * from human", Human.class,
-				new BeanPropertyRowMapper<Human>(Human.class));
-	}
-
-	public List<Human> findAll2() {
-		return jdbcTemplate.query("select * from student", new BeanPropertyRowMapper<Human>(Human.class));
-	}
-
-	public int insert(Human human) {
+	
+	public int insertWithAutoId(Human human) {
 		return jdbcTemplate.update("insert into human (name) " + "values(?)",
 				new Object[] { human.getName() });
 	}
+
+	public List<Human> findAll() {
+		return jdbcTemplate.query("select * from human", new BeanPropertyRowMapper<Human>(Human.class));
+	}
+
 
 }
