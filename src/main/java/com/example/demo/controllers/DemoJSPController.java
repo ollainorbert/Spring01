@@ -20,12 +20,14 @@ public class DemoJSPController {
 	private static final String ROUTING_ADD = "/add";
 	private static final String ROUTING_ADD_RESULT = "/addResult";
 	private static final String ROUTING_FULL_LIST = "/fullList";
+	private static final String ROUTING_FULL_LIST_TAG_LIB = "/fullListTagLib";
 	
 	private static final String JSP_INDEX = "index";
 	private static final String JSP_INFORMATION = "information";
 	private static final String JSP_ADD = "add";
 	private static final String JSP_ADD_RESULT = "addResult";
 	private static final String JSP_FULL_LIST = "fullList";
+	private static final String JSP_FULL_LIST_TAG_LIB = "fullListTagLib";
 	
 	//private static final Logger logger = LogManager.getLogger(DemoJSPController.class);
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
@@ -48,6 +50,10 @@ public class DemoJSPController {
 	
 	public static String GetRoutingFullList() {
 		return ROUTING_FULL_LIST;
+	}
+	
+	public static String GetRoutingFullListTagLib() {
+		return ROUTING_FULL_LIST_TAG_LIB;
 	}
 	
 	@RequestMapping(ROUTING_ROOT)
@@ -73,5 +79,10 @@ public class DemoJSPController {
 	@RequestMapping(ROUTING_FULL_LIST)
 	public String fullList() {
 		return JSP_FULL_LIST;
+	}
+	
+	@RequestMapping(ROUTING_FULL_LIST_TAG_LIB)
+	public String fullListTagLib() {
+		return JSP_FULL_LIST_TAG_LIB;
 	}
 }

@@ -56,5 +56,11 @@ public class DemoJSPControllerTests {
         .andExpect(status().isOk());
 	}
 	
+	@Test
+	public void goodRoutingFullListTagLib() throws Exception {
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingFullListTagLib()))
+        .andExpect(status().isOk());
+	}
+	
 	
 }
