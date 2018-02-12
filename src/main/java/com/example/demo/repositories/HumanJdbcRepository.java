@@ -16,13 +16,22 @@ public class HumanJdbcRepository {
 	JdbcTemplate jdbcTemplate;
 
 	public Human findById(long id) {
-		return jdbcTemplate.queryForObject("select * from student where id=?", new Object[] { id },
+		return jdbcTemplate.queryForObject("select * from human where id=?", new Object[] { id },
 				new BeanPropertyRowMapper<Human>(Human.class));
 	}
 	
-	public List<Human> findAll() {
-		return jdbcTemplate.queryForList("select * from student", Human.class, new BeanPropertyRowMapper<Human>(Human.class));
+	public Human findByName(String name) {
+		return jdbcTemplate.queryForObject("select * from human where name=?", new Object[] { name },
+				new BeanPropertyRowMapper<Human>(Human.class));
 	}
-	
-	
+
+	public List<Human> findAll() {
+		return jdbcTemplate.queryForList("select * from human", Human.class,
+				new BeanPropertyRowMapper<Human>(Human.class));
+	}
+
+	public List<Human> findAll2() {
+		return jdbcTemplate.query("select * from student", new BeanPropertyRowMapper<Human>(Human.class));
+	}
+
 }
