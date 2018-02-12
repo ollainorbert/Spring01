@@ -1,7 +1,9 @@
 package com.example.demo.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import org.junit.Before;
@@ -29,31 +31,36 @@ public class DemoJSPControllerTests {
 	@Test
 	public void goodRoutingRoot() throws Exception {
 		this.mockMvc.perform(get(DemoJSPController.GetRoutingRoot()))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(view().name(DemoJSPController.GetViewNameRoot()));
 	}
 	
 	@Test
 	public void goodRoutingInformation() throws Exception {
 		this.mockMvc.perform(get(DemoJSPController.GetRoutingInformation()))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(view().name(DemoJSPController.GetViewNameInformation()));
 	}
 	
 	@Test
 	public void goodRoutingAdd() throws Exception {
 		this.mockMvc.perform(get(DemoJSPController.GetRoutingAdd()))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(view().name(DemoJSPController.GetViewNameAdd()));
 	}
 	
 	@Test
 	public void goodRoutingAddResult() throws Exception {
-		this.mockMvc.perform(get(DemoJSPController.GetRoutingAddResult()))
-        .andExpect(status().isOk());
+		this.mockMvc.perform(post(DemoJSPController.GetRoutingAddResult()).param(DemoJSPController.GetPostParamAddResult(), "valamiAmiTutiNincsADBben"))
+        .andExpect(status().isOk())
+		.andExpect(view().name(DemoJSPController.GetViewNameAddResult()));
 	}
 	
 	@Test
 	public void goodRoutingFullList() throws Exception {
-		this.mockMvc.perform(get(DemoJSPController.GetRoutingFullList()))
-        .andExpect(status().isOk());
+		this.mockMvc.perform(get(DemoJSPController.GetRoutingListHumans()))
+        .andExpect(status().isOk())
+        .andExpect(view().name(DemoJSPController.GetViewNameListHumans()));
 	}
 	
 
