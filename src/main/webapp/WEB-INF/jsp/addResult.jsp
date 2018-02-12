@@ -3,11 +3,18 @@
 <%@page import="com.example.demo.repositories.HumanJdbcRepository"%>
 <%@page import="org.slf4j.Logger" %>
 <%@page import="org.slf4j.LoggerFactory" %>
+<%@page import="com.example.demo.models.Human" %>
+<%@ page import="org.springframework.web.context.support.SpringBeanAutowiringSupport"%>
 
-<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
-<%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
+<%!
+public void jspInit() 
+{
+    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, getServletContext());
+}
+
+@Autowired
+HumanJdbcRepository repo = new HumanJdbcRepository();
+%>
 
 <html>
 
@@ -20,31 +27,45 @@
 	<br>
 	<%
 		Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-		String name = request.getParameter("name");
-		if (name.trim().length() == 0) {
+		String name = request.getParameter("name");		
+		
+		if (name.trim().length() == 0) {			
 		%>
 			Empty name field!
 			<br>
 			<a href="/add">I want to try again!</a>
 		<%
 		} else {
-			boolean isItIn = true;
-			// DB CHECK
+			Human human = repo.findByName(name);
 			
-
-			//repo.findById(10001);
-			
-			if (name.equals(!isItIn)) {				
+			if (human != null) {
+				logger.info("This name is already in.");
 				%>
-				<b>Success!</b>
-				<%
-			} else {
-			%>
 				<b>That name is already in!</b>
 				<br>
 				<a href="/add">I want to try again!</a>
-			<%
+				<%
+			}
+			else {
+				logger.info("No match, insert start");
+				// INSERT
+				Human newHuman = new Human(name);
+				//newHuman.setId(10004);
+				try {
+					repo.insert(newHuman);
+					logger.info("Insert done!");
+					%>
+					<b>Success!</b>
+					<%
+				}
+				catch(Exception e) {
+					logger.error("Insert failed: " + e.toString());
+					%>
+					<b>Error with the insert!</b>
+					<br>
+					<a href="/add">I want to try again!</a>
+					<%
+				}			
 			}
 		}
 	%>

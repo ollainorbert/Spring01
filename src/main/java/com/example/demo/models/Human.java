@@ -1,6 +1,10 @@
 package com.example.demo.models;
 
+
 public class Human {
+	public Human() {
+	}
+	
 	public Human(String name) {
 		this.setName(name);
 	}
@@ -22,5 +26,10 @@ public class Human {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return (this.id + " " + this.name);
 	}
 }

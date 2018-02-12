@@ -3,6 +3,7 @@ package com.example.demo.repositories;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,13 +17,29 @@ public class HumanJdbcRepository {
 	JdbcTemplate jdbcTemplate;
 
 	public Human findById(long id) {
-		return jdbcTemplate.queryForObject("select * from human where id=?", new Object[] { id },
-				new BeanPropertyRowMapper<Human>(Human.class));
+		Human human = null;
+
+		try {
+			human = jdbcTemplate.queryForObject("select * from human where id=?", new Object[] { id },
+					new BeanPropertyRowMapper<Human>(Human.class));
+		} catch (EmptyResultDataAccessException e) {
+			// okk, no match
+		}
+
+		return human;
 	}
-	
+
 	public Human findByName(String name) {
-		return jdbcTemplate.queryForObject("select * from human where name=?", new Object[] { name },
-				new BeanPropertyRowMapper<Human>(Human.class));
+		Human human = null;
+
+		try {
+			human = jdbcTemplate.queryForObject("select * from human where name=?", new Object[] { name },
+					new BeanPropertyRowMapper<Human>(Human.class));
+		} catch (EmptyResultDataAccessException e) {
+			// okk, no match
+		}
+
+		return human;
 	}
 
 	public List<Human> findAll() {
@@ -32,6 +49,11 @@ public class HumanJdbcRepository {
 
 	public List<Human> findAll2() {
 		return jdbcTemplate.query("select * from student", new BeanPropertyRowMapper<Human>(Human.class));
+	}
+
+	public int insert(Human human) {
+		return jdbcTemplate.update("insert into human (name) " + "values(?)",
+				new Object[] { human.getName() });
 	}
 
 }
