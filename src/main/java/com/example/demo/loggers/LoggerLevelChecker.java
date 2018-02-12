@@ -12,6 +12,7 @@ public final class LoggerLevelChecker {
 
 	// we should this only in debug, if not enabled, we may don't care about this;
 	// or continue later
+	@SuppressWarnings("unused")
 	private static void LogLevelSearcher(org.slf4j.Logger logger) {
 		if (!logger.isTraceEnabled() && !logger.isDebugEnabled() && !logger.isInfoEnabled() && !logger.isWarnEnabled()
 				&& !logger.isErrorEnabled()) {
