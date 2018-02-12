@@ -18,7 +18,7 @@
 	<br>
 	<br>
 	<br>
-	<a href="/fullList">Navigate to the Full list Page!</a>
+	<a href="/listHumans">Navigate to the Full list Page!</a>
 </body>
 
 </html>

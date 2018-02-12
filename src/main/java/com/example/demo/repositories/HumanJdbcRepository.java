@@ -16,6 +16,10 @@ public class HumanJdbcRepository {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
+	public List<Human> findAll() {
+		return jdbcTemplate.query("select * from human", new BeanPropertyRowMapper<Human>(Human.class));
+	}
+	
 	public Human findById(long id) {
 		Human human = null;
 
@@ -48,9 +52,7 @@ public class HumanJdbcRepository {
 				new Object[] { human.getName() });
 	}
 
-	public List<Human> findAll() {
-		return jdbcTemplate.query("select * from human", new BeanPropertyRowMapper<Human>(Human.class));
-	}
+	
 
 
 }
