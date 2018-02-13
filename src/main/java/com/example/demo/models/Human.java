@@ -38,7 +38,7 @@ public class Human implements Serializable{
 	@Column(name = "name")
 	private String name;
 	
-	//@NotNull
+	@NotNull
 	@Column(name = "CREATED_BY")
 	@CreatedBy
 	private java.util.Date CREATED_BY;

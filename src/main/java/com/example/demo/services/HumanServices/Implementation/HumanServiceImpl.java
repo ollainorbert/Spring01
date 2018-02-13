@@ -41,7 +41,6 @@ public class HumanServiceImpl implements HumanService {
 	public String save(Human human) throws HumanException {
 		if (human.getName().trim().length() == 0) {
 			throw new EmptyFieldException();
-			//return "Empty name field!";
 		} else {
 			human.setName(human.getName().trim());
 
@@ -52,7 +51,6 @@ public class HumanServiceImpl implements HumanService {
 			for(Human item : humanListFromDB) {
 				if(item.getName().equals(searchableName)) {
 					throw new NameAlreadyTakenException();
-					//return "This name is already in!";
 				}
 			}
 
@@ -64,7 +62,6 @@ public class HumanServiceImpl implements HumanService {
 			} catch (Exception e) {
 				logger.error("Insert failed: " + e.toString());
 				throw new InsertFailedException();
-				//return "Error with the insert!";
 			}
 		}
 	}
