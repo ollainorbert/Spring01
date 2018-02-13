@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.CreatedBy;
+
+
 @Entity(name = "Human")
 @Table(name = "Human")
 //@NamedQueries({
@@ -34,9 +37,14 @@ public class Human implements Serializable{
 	@NotNull
 	@Column(name = "name")
 	private String name;
+	
+	//@NotNull
+	@Column(name = "CREATED_BY")
+	@CreatedBy
+	private java.util.Date CREATED_BY;
 
 	//private UUID id2;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -51,6 +59,14 @@ public class Human implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public java.util.Date getCREATED_BY() {
+		return CREATED_BY;
+	}
+
+	public void setCREATED_BY(java.util.Date cREATED_BY) {
+		CREATED_BY = cREATED_BY;
 	}
 	
 	@Override

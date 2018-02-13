@@ -10,12 +10,14 @@
 		<tr>
 			<th>ID</th>
 			<th>Name</th>
+			<th>CREATED_BY</th>
 		</tr>
 
 		<c:forEach items="${humans}" var="human" >
 			<tr>
 				<td><c:out value="${human.id}" /></td>
 				<td><c:out value="${human.name}" /></td>
+				<td><c:out value="${human.CREATED_BY}" /></td>
 			</tr>
 		</c:forEach>
 	</table>

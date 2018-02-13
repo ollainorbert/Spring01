@@ -1,5 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.services.HumanServices.Implementation;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Human;
 import com.example.demo.repositories.HumanRepository;
+import com.example.demo.services.HumanService;
+import com.example.demo.services.HumanServices.Exceptions.EmptyFieldException;
+import com.example.demo.services.HumanServices.Exceptions.HumanException;
+import com.example.demo.services.HumanServices.Exceptions.InsertFailedException;
+import com.example.demo.services.HumanServices.Exceptions.NameAlreadyTakenException;
 
 @Service
 public class HumanServiceImpl implements HumanService {
@@ -32,26 +38,33 @@ public class HumanServiceImpl implements HumanService {
 	}
 
 	@Override
-	public String save(Human human) {
-		human.setName(human.getName().trim());
-		if (human.getName().length() == 0) {
-			return "Empty name field!";
+	public String save(Human human) throws HumanException {
+		if (human.getName().trim().length() == 0) {
+			throw new EmptyFieldException();
+			//return "Empty name field!";
 		} else {
+			human.setName(human.getName().trim());
+
 			logger.info("Search in DB by name: " + human.getName());
 			List<Human> humanListFromDB = repo.findAll();
-			for (int i = 0; i < humanListFromDB.size(); ++i) {
-				if (humanListFromDB.get(i).getName().equals(human.getName())) {
-					return "This name is already in!";
+			
+			final String searchableName = human.getName();
+			for(Human item : humanListFromDB) {
+				if(item.getName().equals(searchableName)) {
+					throw new NameAlreadyTakenException();
+					//return "This name is already in!";
 				}
 			}
 
 			logger.info("No match, insert start");
 			try {
+				human.setCREATED_BY(new Date());
 				repo.save(human);
 				return "Success!";
 			} catch (Exception e) {
 				logger.error("Insert failed: " + e.toString());
-				return "Error with the insert!";
+				throw new InsertFailedException();
+				//return "Error with the insert!";
 			}
 		}
 	}

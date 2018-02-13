@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.models.Human;
 import com.example.demo.services.HumanService;
+import com.example.demo.services.HumanServices.Exceptions.HumanException;
 
 @Controller
 public class DemoJSPController {
@@ -101,11 +102,23 @@ public class DemoJSPController {
 	@RequestMapping(value = ROUTING_ADD_RESULT, method = RequestMethod.POST)
 	public ModelAndView addResult(@RequestParam(value = POST_PARAM_ADD_RESULT) final String name) {
 		String resultId = "result";
+		String errorId = "error";
+		String errorHeader = "Error!";
 
 		ModelAndView modelAndView = new ModelAndView(JSP_ADD_RESULT);
+		
 		Human human = new Human(name);
-		String result = service.save(human);
+		
+		String result = null;
+		try {
+			result = service.save(human);
+		}
+		catch (HumanException e) {
+			result = e.getMessage();
+			modelAndView.addObject(errorId, errorHeader);
+		}
 		logger.info(result);
+		
 		modelAndView.addObject(resultId, result);
 
 		return modelAndView;

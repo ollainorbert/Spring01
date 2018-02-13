@@ -8,6 +8,7 @@
 <body>
 	<b>Result:</b>
 	<br>
+	<p><c:out value="${error}"/></p>
 	<p><c:out value="${result}"/></p>
 	<br>
 	<a href="/add">I want to record a name again!</a>
