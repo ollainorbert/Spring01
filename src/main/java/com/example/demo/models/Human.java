@@ -1,7 +1,6 @@
 package com.example.demo.models;
 
 import java.io.Serializable;
-//import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,47 +11,48 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
-
 
 @Entity(name = "Human")
 @Table(name = "Human")
-//@NamedQueries({
-//	@NamedQuery(name = "Human.findByName", query = "SELECT r FROM Human WHERE r.name = :name")
-//})
-public class Human implements Serializable{
+// @NamedQueries({
+// @NamedQuery(name = "Human.findByName", query = "SELECT r FROM Human WHERE
+// r.name = :name")
+// })
+public class Human implements Serializable {
 	private static final long serialVersionUID = -7740609680249087877L;
 
 	public Human() {
 	}
-	
+
 	public Human(String name) {
 		this.setName(name);
 	}
-	
+
 	@Id
-	@GeneratedValue
-	private long id;
-	
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@Column(name = "id", updatable = false, nullable = false)
+	private String id;
+
 	@NotNull
 	@Column(name = "name")
 	private String name;
-	
+
 	@NotNull
 	@Column(name = "CREATED_BY")
 	@CreatedBy
 	private java.util.Date CREATED_BY;
 
-	//private UUID id2;
-
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -60,7 +60,7 @@ public class Human implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public java.util.Date getCREATED_BY() {
 		return CREATED_BY;
 	}
@@ -68,7 +68,7 @@ public class Human implements Serializable{
 	public void setCREATED_BY(java.util.Date cREATED_BY) {
 		CREATED_BY = cREATED_BY;
 	}
-	
+
 	@Override
 	public String toString() {
 		return (this.id + " " + this.name);
