@@ -51,7 +51,7 @@ public class DemoJSPControllerTests {
 	
 	@Test
 	public void goodRoutingAddResult() throws Exception {
-		this.mockMvc.perform(post(DemoJSPController.GetRoutingAddResult()).param(DemoJSPController.GetPostParamAddResult(), "valamiAmiTutiNincsADBben"))
+		this.mockMvc.perform(post(DemoJSPController.GetRoutingAddResult()).param(DemoJSPController.GetPostParamAddResult(), "somethingThatIHopeNeverEverWillBeInTheDB"))
         .andExpect(status().isOk())
 		.andExpect(view().name(DemoJSPController.GetViewNameAddResult()));
 	}

@@ -25,15 +25,15 @@ public class HumanServiceImpl implements HumanService {
 
 	@Override
 	public List<Human> findAll() {
-		List<Human> humanList = repo.findAll();
+		List<Human> humanListFromDB = repo.findAll();
 
 		logger.info("START");
-		logger.info("Human's number: " + humanList.size());
-		for (int i = 0; i < humanList.size(); ++i) {
-			logger.info(humanList.get(i).getName());
+		logger.info("Human's number: " + humanListFromDB.size());
+		for(Human item : humanListFromDB) {
+			logger.info(item.toString());
 		}
 
-		return humanList;
+		return humanListFromDB;
 	}
 
 	@Override
