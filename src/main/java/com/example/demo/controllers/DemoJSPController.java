@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.List;
 
 //import org.apache.logging.log4j.LogManager;
@@ -115,7 +117,7 @@ public class DemoJSPController {
 			modelAndView.addObject(resultId, "Empty name field!");
 		} else {
 			// Ezt a loggolast is ki kene vinni valahova
-			logger.info("Search in DB by name: " + name);
+			/*logger.info("Search in DB by name: " + name);
 			List<Human> humanListFromDB = repo.findAll();
 			boolean isItIn = false;
 			for(int i = 0; i < humanListFromDB.size(); ++i) {
@@ -123,6 +125,16 @@ public class DemoJSPController {
 					isItIn = true;
 					break;
 				}
+			}*/
+			boolean isItIn = false;
+			Human testHuman = repo.findByName(name);
+			if(testHuman != null) {
+				logger.info("NEM NULL");
+				logger.info(testHuman.getName());
+				isItIn = true;
+			}
+			else {
+				logger.info("NULL");
 			}
 			if (isItIn) {
 				logger.info("This name is already in!");
@@ -160,6 +172,7 @@ public class DemoJSPController {
 		} catch (Exception e) {
 			modelAndView = new ModelAndView("/error");
 		}
+		
 		return modelAndView;
 	}
 
