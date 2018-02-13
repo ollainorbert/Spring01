@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+//import javax.inject.Inject;
+
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.loggers.LoggerLevelChecker;
 import com.example.demo.models.Human;
 import com.example.demo.repositories.HumanJdbcRepository;
+import com.example.demo.repositories.HumanRepository;
 
 @Controller
 public class DemoJSPController {
@@ -41,6 +44,9 @@ public class DemoJSPController {
 
 	@Autowired
 	HumanJdbcRepository repo;
+	
+	//@Inject
+	//HumanRepository repo2;
 
 	public static String GetRoutingRoot() {
 		return ROUTING_ROOT;
@@ -140,6 +146,7 @@ public class DemoJSPController {
 		try {
 			modelAndView = new ModelAndView(JSP_FULL_LIST);
 			modelAndView.addObject("humans", repo.findAll());
+			//modelAndView.addObject("humans", repo2.findAll());
 		} catch (Exception e) {
 			modelAndView = new ModelAndView("/error");
 		}

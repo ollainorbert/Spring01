@@ -84,9 +84,6 @@
 			<version>1.5.10.RELEASE</version>
 		</dependency>
 
-
-
-
 		<!-- Boot's own JDBC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -100,6 +97,15 @@
 			<scope>runtime</scope>
 		</dependency>
 
+
+
+
+
+
+
+
+	
+		
 	</dependencies>
 
 	<build>
