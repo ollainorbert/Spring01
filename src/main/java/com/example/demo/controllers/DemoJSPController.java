@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-//import javax.inject.Inject;
+import java.util.List;
 
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.loggers.LoggerLevelChecker;
 import com.example.demo.models.Human;
-import com.example.demo.repositories.HumanJdbcRepository;
 import com.example.demo.repositories.HumanRepository;
 
 @Controller
@@ -43,10 +42,7 @@ public class DemoJSPController {
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
 
 	@Autowired
-	HumanJdbcRepository repo;
-	
-	//@Inject
-	//HumanRepository repo2;
+	HumanRepository repo;
 
 	public static String GetRoutingRoot() {
 		return ROUTING_ROOT;
@@ -118,15 +114,24 @@ public class DemoJSPController {
 		if (name.trim().length() == 0) {
 			modelAndView.addObject(resultId, "Empty name field!");
 		} else {
+			// Ezt a loggolast is ki kene vinni valahova
 			logger.info("Search in DB by name: " + name);
-			Human human = repo.findByName(name);
-			if (human != null) {
+			List<Human> humanListFromDB = repo.findAll();
+			boolean isItIn = false;
+			for(int i = 0; i < humanListFromDB.size(); ++i) {
+				if(humanListFromDB.get(i).getName().equals(name)) {
+					isItIn = true;
+					break;
+				}
+			}
+			if (isItIn) {
 				logger.info("This name is already in!");
+				modelAndView.addObject(resultId, "This name is already in!");
 			} else {
 				logger.info("No match, insert start");
 				Human newHuman = new Human(name);
 				try {
-					repo.insertWithAutoId(newHuman);
+					repo.save(newHuman);
 					logger.info("Insert done!");
 					modelAndView.addObject(resultId, "Success!");
 				} catch (Exception e) {
@@ -145,8 +150,13 @@ public class DemoJSPController {
 
 		try {
 			modelAndView = new ModelAndView(JSP_FULL_LIST);
+			java.util.List<Human> list = repo.findAll();
+			logger.info("START");
+			logger.info("NNUMBER: " + list.size());
+			for(int i = 0; i < list.size(); ++i) {
+				logger.info(list.get(i).getName());
+			}
 			modelAndView.addObject("humans", repo.findAll());
-			//modelAndView.addObject("humans", repo2.findAll());
 		} catch (Exception e) {
 			modelAndView = new ModelAndView("/error");
 		}

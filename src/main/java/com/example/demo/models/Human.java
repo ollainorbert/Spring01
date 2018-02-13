@@ -2,9 +2,17 @@ package com.example.demo.models;
 
 import java.io.Serializable;
 
-//@Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+@Entity(name = "Human")
+@Table(name = "human")
 public class Human implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7740609680249087877L;
 
 	public Human() {
 	}
@@ -13,7 +21,12 @@ public class Human implements Serializable{
 		this.setName(name);
 	}
 	
+	@Id
+	@GeneratedValue
 	private long id;
+	
+	@NotNull
+	@Column
 	private String name;
 
 	public long getId() {
