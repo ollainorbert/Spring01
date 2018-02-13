@@ -1,9 +1,5 @@
 package com.example.demo.controllers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
-import java.util.List;
-
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 import org.slf4j.Logger;
@@ -15,16 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.loggers.LoggerLevelChecker;
 import com.example.demo.models.Human;
-import com.example.demo.repositories.HumanRepository;
+import com.example.demo.services.HumanService;
 
 @Controller
 public class DemoJSPController {
-	private DemoJSPController() {
-		LoggerLevelChecker.LogLoggerLevels(logger);
-	}
-
 	private static final String ROUTING_ROOT = "/";
 	private static final String ROUTING_INFORMATION = "/information";
 	private static final String ROUTING_ADD = "/add";
@@ -39,12 +30,11 @@ public class DemoJSPController {
 
 	private static final String POST_PARAM_ADD_RESULT = "name";
 
-	// private static final Logger logger =
-	// LogManager.getLogger(DemoJSPController.class);
+	// private static final Logger logger = LogManager.getLogger(DemoJSPController.class);
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
 
 	@Autowired
-	HumanRepository repo;
+	private HumanService service;
 
 	public static String GetRoutingRoot() {
 		return ROUTING_ROOT;
@@ -113,45 +103,10 @@ public class DemoJSPController {
 		String resultId = "result";
 
 		ModelAndView modelAndView = new ModelAndView(JSP_ADD_RESULT);
-		if (name.trim().length() == 0) {
-			modelAndView.addObject(resultId, "Empty name field!");
-		} else {
-			// Ezt a loggolast is ki kene vinni valahova
-			/*logger.info("Search in DB by name: " + name);
-			List<Human> humanListFromDB = repo.findAll();
-			boolean isItIn = false;
-			for(int i = 0; i < humanListFromDB.size(); ++i) {
-				if(humanListFromDB.get(i).getName().equals(name)) {
-					isItIn = true;
-					break;
-				}
-			}*/
-			boolean isItIn = false;
-			Human testHuman = repo.findByName(name);
-			if(testHuman != null) {
-				logger.info("NEM NULL");
-				logger.info(testHuman.getName());
-				isItIn = true;
-			}
-			else {
-				logger.info("NULL");
-			}
-			if (isItIn) {
-				logger.info("This name is already in!");
-				modelAndView.addObject(resultId, "This name is already in!");
-			} else {
-				logger.info("No match, insert start");
-				Human newHuman = new Human(name);
-				try {
-					repo.save(newHuman);
-					logger.info("Insert done!");
-					modelAndView.addObject(resultId, "Success!");
-				} catch (Exception e) {
-					logger.error("Insert failed: " + e.toString());
-					modelAndView.addObject(resultId, "Error with the insert!");
-				}
-			}
-		}
+		Human human = new Human(name);
+		String result = service.save(human);
+		logger.info(result);
+		modelAndView.addObject(resultId, result);
 
 		return modelAndView;
 	}
@@ -162,13 +117,7 @@ public class DemoJSPController {
 
 		try {
 			modelAndView = new ModelAndView(JSP_FULL_LIST);
-			java.util.List<Human> list = repo.findAll();
-			logger.info("START");
-			logger.info("NNUMBER: " + list.size());
-			for(int i = 0; i < list.size(); ++i) {
-				logger.info(list.get(i).getName());
-			}
-			modelAndView.addObject("humans", repo.findAll());
+			modelAndView.addObject("humans", service.findAll());
 		} catch (Exception e) {
 			modelAndView = new ModelAndView("/error");
 		}
