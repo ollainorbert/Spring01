@@ -1,11 +1,13 @@
 package com.example.demo.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 //import javax.persistence.NamedQueries;
 //import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -37,14 +39,19 @@ public class Human implements Serializable {
 	private String id;
 
 	@NotNull
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@NotNull
-	@Column(name = "CREATED_BY")
+	@Column(name = "CREATED_BY", updatable = false, nullable = false)
 	@CreatedBy
-	private java.util.Date CREATED_BY;
+	private Date CREATED_BY;
 
+	@PrePersist
+	void CREATED_BY() {
+		this.CREATED_BY = new Date();
+	}
+	
 	public String getId() {
 		return id;
 	}

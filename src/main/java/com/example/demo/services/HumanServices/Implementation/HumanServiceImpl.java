@@ -1,6 +1,5 @@
 package com.example.demo.services.HumanServices.Implementation;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -56,7 +55,6 @@ public class HumanServiceImpl implements HumanService {
 
 			logger.info("No match, insert start");
 			try {
-				human.setCREATED_BY(new Date());
 				repo.save(human);
 				return "Success!";
 			} catch (Exception e) {
