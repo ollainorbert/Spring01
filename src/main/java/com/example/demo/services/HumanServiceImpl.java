@@ -33,7 +33,8 @@ public class HumanServiceImpl implements HumanService {
 
 	@Override
 	public String save(Human human) {
-		if (human.getName().trim().length() == 0) {
+		human.setName(human.getName().trim());
+		if (human.getName().length() == 0) {
 			return "Empty name field!";
 		} else {
 			logger.info("Search in DB by name: " + human.getName());
