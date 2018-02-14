@@ -38,7 +38,11 @@ public class HumanServiceImpl implements HumanService {
 
 	@Override
 	public String save(Human human) throws HumanException {
-		if (human.getName().trim().length() == 0) {
+		if (
+			(human == null) ||
+			(human.getName() == null) ||
+			(human.getName().trim().length() == 0)
+			) {
 			throw new EmptyFieldException();
 		} else {
 			human.setName(human.getName().trim());
