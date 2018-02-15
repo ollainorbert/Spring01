@@ -22,20 +22,17 @@ public class DemoJSPController {
 	private static final String ROUTING_ADD = "/add";
 	private static final String ROUTING_ADD_RESULT = "/addResult";
 	private static final String ROUTING_FULL_LIST = "/listHumans";
-	private static final String ROUTING_ERROR = "/error";
 
 	private static final String JSP_INDEX = "index";
 	private static final String JSP_INFORMATION = "information";
 	private static final String JSP_ADD = "add";
 	private static final String JSP_ADD_RESULT = "addResult";
 	private static final String JSP_FULL_LIST = "listHumans";
-	private static final String JSP_ERROR = "error";
 
 	private static final String POST_PARAM_ADD_RESULT = "name";
 	
-	private static final String ERROR_PAGE_ERROR_MSG_ID = "errorMsgId";
+	private static final String ERROR_ID = "error";
 
-	// private static final Logger logger = LogManager.getLogger(DemoJSPController.class);
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
 
 	@Autowired
@@ -60,10 +57,6 @@ public class DemoJSPController {
 	public static String GetRoutingListHumans() {
 		return ROUTING_FULL_LIST;
 	}
-	
-	public static String GetRoutingError() {
-		return ROUTING_ERROR;
-	}
 
 	public static String GetViewNameRoot() {
 		return JSP_INDEX;
@@ -84,17 +77,9 @@ public class DemoJSPController {
 	public static String GetViewNameListHumans() {
 		return JSP_FULL_LIST;
 	}
-	
-	public static String GetViewNameError() {
-		return JSP_ERROR;
-	}
 
 	public static String GetPostParamAddResult() {
 		return POST_PARAM_ADD_RESULT;
-	}
-	
-	public static String GetErrorPageErrorMsgId() {
-		return ERROR_PAGE_ERROR_MSG_ID;
 	}
 
 	@RequestMapping(value = ROUTING_ROOT, method = RequestMethod.GET)
@@ -117,55 +102,41 @@ public class DemoJSPController {
 
 	@RequestMapping(value = ROUTING_ADD_RESULT, method = RequestMethod.POST)
 	public ModelAndView addResult(@RequestParam(value = POST_PARAM_ADD_RESULT) final String name) {
-		String resultId = "result";
-		String errorId = "error";
+		String resultId = "result";	
 		String errorHeader = "Error!";
 
 		ModelAndView modelAndView = null;
 		modelAndView = new ModelAndView(JSP_ADD_RESULT);
-		
+
 		Human human = new Human(name);
-		
+
 		String result = null;
 		try {
 			result = service.save(human);
-			//modelAndView = new ModelAndView(JSP_ADD_RESULT);
 			modelAndView.addObject(resultId, result);
-		}
-		catch (HumanException e) {
+		} catch (HumanException e) {
 			result = e.getMessage();
-			modelAndView.addObject(errorId, errorHeader);
-			
-			//modelAndView = new ModelAndView(JSP_ERROR);
-			//modelAndView.addObject(ERROR_PAGE_ERROR_MSG_ID, result);				
+			modelAndView.addObject(ERROR_ID, errorHeader);
 		}
 		logger.info(result);
-		
+
 		return modelAndView;
 	}
 
 	@RequestMapping(value = ROUTING_FULL_LIST, method = RequestMethod.GET)
 	public ModelAndView listHumans() {
+		String errorHeader = "Error! Try again later!";
+		
 		ModelAndView modelAndView = null;
 		modelAndView = new ModelAndView(JSP_FULL_LIST);
-		
+
 		try {
-			//modelAndView = new ModelAndView(JSP_FULL_LIST);
 			modelAndView.addObject("humans", service.findAll());
 		} catch (Exception e) {
-			//modelAndView = new ModelAndView(JSP_ERROR);
-			//modelAndView.addObject(ERROR_PAGE_ERROR_MSG_ID, "Error");
+			modelAndView.addObject(ERROR_ID, errorHeader);
 		}
-		
+
 		return modelAndView;
 	}
-	
-//	@RequestMapping(value = ROUTING_ERROR, method = RequestMethod.POST)
-//	public ModelAndView errorPage(@RequestParam(value = ERROR_PAGE_ERROR_MSG_ID) final String errorMsg) {
-//		ModelAndView modelAndView = new ModelAndView(JSP_ERROR);
-//		modelAndView.addObject(ERROR_PAGE_ERROR_MSG_ID, "Error");
-//		return modelAndView;
-//	}
-	
 
 }

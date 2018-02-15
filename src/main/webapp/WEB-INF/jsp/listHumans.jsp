@@ -6,6 +6,7 @@
 </head>
 
 <body>
+<p><c:out value="${error}"/></p>
 <table border="1" width="50%">
 		<tr>
 			<th>ID</th>

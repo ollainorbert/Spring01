@@ -1,6 +1,8 @@
 package com.example.demo.services.HumanServices.Implementation;
 
 import java.util.List;
+//import org.springframework.util.StringUtils;
+//import org.apache.commons.lang.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class HumanServiceImpl implements HumanService {
 
 		logger.info("START");
 		logger.info("Human's number: " + humanListFromDB.size());
-		for(Human item : humanListFromDB) {
+		for (Human item : humanListFromDB) {
 			logger.info(item.toString());
 		}
 
@@ -38,33 +40,27 @@ public class HumanServiceImpl implements HumanService {
 
 	@Override
 	public String save(Human human) throws HumanException {
-		if (
-			(human == null) ||
-			(human.getName() == null) ||
-			(human.getName().trim().length() == 0)
-			) {
+		if ((human == null) || (!human.isValid())) {
 			throw new EmptyFieldException();
-		} else {
-			human.setName(human.getName().trim());
+		}
 
-			logger.info("Search in DB by name: " + human.getName());
-			List<Human> humanListFromDB = repo.findAll();
-			
-			final String searchableName = human.getName();
-			for(Human item : humanListFromDB) {
-				if(item.getName().equals(searchableName)) {
-					throw new NameAlreadyTakenException();
-				}
-			}
+		logger.info("Search in DB by name: " + human.getName());
+		List<Human> humanListFromDB = repo.findAll();
 
-			logger.info("No match, insert start");
-			try {
-				repo.save(human);
-				return "Success!";
-			} catch (Exception e) {
-				logger.error("Insert failed: " + e.toString());
-				throw new InsertFailedException();
+		final String searchableName = human.getName();
+		for (Human item : humanListFromDB) {
+			if (item.getName().equals(searchableName)) {
+				throw new NameAlreadyTakenException();
 			}
+		}
+
+		logger.info("No match, insert start");
+		try {
+			repo.save(human);
+			return "Success!";
+		} catch (Exception e) {
+			logger.error("Insert failed: " + e.toString());
+			throw new InsertFailedException();
 		}
 	}
 

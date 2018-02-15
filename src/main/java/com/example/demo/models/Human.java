@@ -8,20 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
-//import javax.persistence.NamedQueries;
-//import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedBy;
 
 @Entity(name = "Human")
 @Table(name = "Human")
-// @NamedQueries({
-// @NamedQuery(name = "Human.findByName", query = "SELECT r FROM Human WHERE
-// r.name = :name")
-// })
 public class Human implements Serializable {
 	private static final long serialVersionUID = -7740609680249087877L;
 
@@ -39,6 +34,7 @@ public class Human implements Serializable {
 	private String id;
 
 	@NotNull
+	@NotBlank
 	@Column(name = "name", nullable = false)
 	private String name;
 
@@ -51,7 +47,7 @@ public class Human implements Serializable {
 	void CREATED_BY() {
 		this.CREATED_BY = new Date();
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -65,7 +61,11 @@ public class Human implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if (name == null) {
+			this.name = "";
+		} else {
+			this.name = name.trim();
+		}
 	}
 
 	public java.util.Date getCREATED_BY() {
@@ -74,6 +74,14 @@ public class Human implements Serializable {
 
 	public void setCREATED_BY(java.util.Date cREATED_BY) {
 		CREATED_BY = cREATED_BY;
+	}
+
+	public boolean isValid() {
+		if (this.getName().length() == 0) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
