@@ -5,11 +5,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
 
-public class AccuweatherProvider {
+public class AccuweatherProvider extends WeatherProviderBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccuweatherProvider.class);
 
@@ -26,7 +25,7 @@ public class AccuweatherProvider {
 
 	public static long getCityIdFromCityName(String cityName) throws Exception {
 		String requestString = String.format(PATTERN_SEARCH_FOR_CITY, MAIN_PAGE, API_KEY, cityName);
-		String response = getResponse(requestString);
+		String response = getResponseFromStringRequest(requestString);	
 
 		if (response.equals("[]")) {
 			throw new CityNotFoundException();
@@ -52,7 +51,7 @@ public class AccuweatherProvider {
 
 	public static float getTheTemperature(long cityId) throws Exception {
 		String requestString = String.format(PATTERN_SEARCH_FOR_CURRENT_CONDITIONS, MAIN_PAGE, cityId, API_KEY);
-		String response = getResponse(requestString);
+		String response = getResponseFromStringRequest(requestString);
 
 		String temperatureKey = "Temperature";
 		String metricTemperatureKey = "Metric";
@@ -79,17 +78,6 @@ public class AccuweatherProvider {
 			logger.error(e.getMessage());
 			throw e;
 		}
-	}
-
-	private static String getResponse(String requestString) {
-		logger.info("Request String sent: " + requestString);
-
-		RestTemplate restTemplate = new RestTemplate();
-		String response = restTemplate.getForObject(requestString, String.class);
-
-		logger.info("Response: " + response);
-
-		return response;
 	}
 
 	private static String formatJSONStringIfInAnAnotherArray(String jsonString) throws ParseException {
