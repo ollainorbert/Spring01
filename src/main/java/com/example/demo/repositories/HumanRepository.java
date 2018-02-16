@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.models.Human;
 
-public interface HumanRepository extends JpaRepository<Human, Long> {
+public interface HumanRepository extends JpaRepository<Human, String> {
 	
 	//@Query
 	//public Human findByName(@Param("name") String name);

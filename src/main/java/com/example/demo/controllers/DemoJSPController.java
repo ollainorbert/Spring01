@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.models.Human;
 import com.example.demo.services.HumanService;
+import com.example.demo.services.WeatherService;
 import com.example.demo.services.HumanServices.Exceptions.HumanException;
+import com.example.demo.services.WeatherServices.Exceptions.WeatherException;
 
 @Controller
 public class DemoJSPController {
@@ -22,15 +24,21 @@ public class DemoJSPController {
 	private static final String ROUTING_ADD = "/add";
 	private static final String ROUTING_ADD_RESULT = "/addResult";
 	private static final String ROUTING_FULL_LIST = "/listHumans";
-
+	private static final String ROUTING_WEATHER_INFO = "/weatherInfo";
+	private static final String ROUTING_WEATHER_INFO_RESULT = "/weatherInfoResult";
+	
 	private static final String JSP_INDEX = "index";
 	private static final String JSP_INFORMATION = "information";
 	private static final String JSP_ADD = "add";
 	private static final String JSP_ADD_RESULT = "addResult";
 	private static final String JSP_FULL_LIST = "listHumans";
-
-	private static final String POST_PARAM_ADD_RESULT = "name";
+	private static final String JSP_WEATHER_INFO = "weatherInfo";
+	private static final String JSP_WEATHER_INFO_RESULT = "weatherInfoResult";
 	
+	private static final String POST_PARAM_ADD_RESULT = "name";
+	private static final String POST_PARAM_CITY_NAME = "cityName";
+	
+	private static final String RESULT_ID = "result";
 	private static final String ERROR_ID = "error";
 
 	private static final Logger logger = LoggerFactory.getLogger(DemoJSPController.class);
@@ -38,6 +46,9 @@ public class DemoJSPController {
 	@Autowired
 	private HumanService service;
 
+	@Autowired
+	private WeatherService weatherService;
+	
 	public static String GetRoutingRoot() {
 		return ROUTING_ROOT;
 	}
@@ -101,10 +112,7 @@ public class DemoJSPController {
 	}
 
 	@RequestMapping(value = ROUTING_ADD_RESULT, method = RequestMethod.POST)
-	public ModelAndView addResult(@RequestParam(value = POST_PARAM_ADD_RESULT) final String name) {
-		String resultId = "result";	
-		String errorHeader = "Error!";
-
+	public ModelAndView addResult(@RequestParam(value = POST_PARAM_ADD_RESULT) final String name) {	
 		ModelAndView modelAndView = null;
 		modelAndView = new ModelAndView(JSP_ADD_RESULT);
 
@@ -113,10 +121,10 @@ public class DemoJSPController {
 		String result = null;
 		try {
 			result = service.save(human);
-			modelAndView.addObject(resultId, result);
+			modelAndView.addObject(RESULT_ID, result);
 		} catch (HumanException e) {
 			result = e.getMessage();
-			modelAndView.addObject(ERROR_ID, errorHeader);
+			modelAndView.addObject(ERROR_ID, e.getMessage());
 		}
 		logger.info(result);
 
@@ -136,6 +144,35 @@ public class DemoJSPController {
 			modelAndView.addObject(ERROR_ID, errorHeader);
 		}
 
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = ROUTING_WEATHER_INFO, method = RequestMethod.GET)
+	public ModelAndView checkWeather() {
+		ModelAndView modelAndView = new ModelAndView(JSP_WEATHER_INFO);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = ROUTING_WEATHER_INFO_RESULT, method = RequestMethod.POST)
+	public ModelAndView weatherResult(@RequestParam(value = POST_PARAM_CITY_NAME) final String cityName) {
+		ModelAndView modelAndView = new ModelAndView(JSP_WEATHER_INFO_RESULT);
+		
+		String resultMessage = "";
+		try {
+			float result = weatherService.getTemperatureFromCity(cityName);
+			resultMessage = "" + result;
+			modelAndView.addObject(RESULT_ID, result);
+		}
+		catch (WeatherException e) {
+			resultMessage = e.getMessage();
+			modelAndView.addObject(ERROR_ID, resultMessage);
+		}
+		catch (Exception e) {
+			resultMessage = e.getMessage();
+			modelAndView.addObject(ERROR_ID, "Error!");
+		}
+		logger.info("RESULT MESSAGE: " + resultMessage);
+		
 		return modelAndView;
 	}
 

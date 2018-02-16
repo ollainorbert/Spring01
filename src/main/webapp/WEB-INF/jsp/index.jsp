@@ -10,6 +10,9 @@
 	<br>
 	<br>
 	<a href="/add">Navigate to the Add Page!</a>
+	<br>
+	<br>
+	<a href="/weatherInfo">Navigate to the Weather Page!</a>
 </body>
 
 </html>
