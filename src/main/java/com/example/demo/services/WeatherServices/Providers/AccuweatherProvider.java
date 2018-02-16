@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
+
 public class AccuweatherProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccuweatherProvider.class);
@@ -26,6 +28,10 @@ public class AccuweatherProvider {
 		String requestString = String.format(PATTERN_SEARCH_FOR_CITY, MAIN_PAGE, API_KEY, cityName);
 		String response = getResponse(requestString);
 
+		if (response.equals("[]")) {
+			throw new CityNotFoundException();
+		}
+		
 		String cityIdKeyInJSON = "Key";
 
 		try {
@@ -51,24 +57,24 @@ public class AccuweatherProvider {
 		String temperatureKey = "Temperature";
 		String metricTemperatureKey = "Metric";
 		String temperatureTypeValueKey = "Value";
-		
+
 		try {
 			JSONObject jsonObject = getJSONObjectFromString(response, true);
-			
-			String temperature = jsonObject.get(temperatureKey).toString();	
+
+			String temperature = jsonObject.get(temperatureKey).toString();
 			logger.info("Temperature String: " + temperature);
-			
+
 			String metricTemperature = getStringFromJSONObjectStringWithKey(temperature, metricTemperatureKey);
 			logger.info("Metric temperature String: " + metricTemperature);
-			
+
 			String celsiusInString = getStringFromJSONObjectStringWithKey(metricTemperature, temperatureTypeValueKey);
 			logger.info("Celsius String: " + celsiusInString);
-			
+
 			float celsius = Float.parseFloat(celsiusInString);
 			logger.info("Celsius as number: " + celsius);
-			
+
 			return celsius;
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw e;
@@ -102,7 +108,7 @@ public class AccuweatherProvider {
 	private static JSONObject getJSONObjectFromString(String jsonString) throws ParseException {
 		return getJSONObjectFromString(jsonString, false);
 	}
-	
+
 	private static JSONObject getJSONObjectFromString(String jsonString, boolean isOuterArrayNotNecessary)
 			throws ParseException {
 		if (isOuterArrayNotNecessary) {
@@ -119,10 +125,11 @@ public class AccuweatherProvider {
 			throw e;
 		}
 	}
-	
-	private static String getStringFromJSONObjectStringWithKey(String jsonObjectString, String key) throws ParseException {
+
+	private static String getStringFromJSONObjectStringWithKey(String jsonObjectString, String key)
+			throws ParseException {
 		JSONObject tempObject = getJSONObjectFromString(jsonObjectString);
-		String result = tempObject.get(key).toString();		
+		String result = tempObject.get(key).toString();
 		return result;
 	}
 
