@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.models.AccuweatherCityModel;
 import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
 
 @Component
@@ -27,9 +28,18 @@ public class AccuweatherProvider extends WeatherProviderBase {
 
 	@Override
 	public float getTemperatureByCityName(String cityName) throws Exception {
-		long cityId = getCityIdFromCityName(cityName);
+		//long cityId = getCityIdFromCityName(cityName);
+		//getCityIdFromCityName(cityName);
+		long cityId = getCityIdFromCityName1(cityName);
 		float temperature = getTheTemperature(cityId);
 		return temperature;
+	}
+	
+	private static long getCityIdFromCityName1(String cityName) throws Exception {
+		String requestString = String.format(PATTERN_SEARCH_FOR_CITY, MAIN_PAGE, API_KEY, cityName);
+		AccuweatherCityModel cityModel = getResponseModelFromStringRequest(requestString, AccuweatherCityModel.class, true, AccuweatherCityModel[].class);
+		logger.info(" ! ! ! ! KEY: " + cityModel.getKey());
+		return Long.parseLong(cityModel.getKey());
 	}
 	
 	private static long getCityIdFromCityName(String cityName) throws Exception {
