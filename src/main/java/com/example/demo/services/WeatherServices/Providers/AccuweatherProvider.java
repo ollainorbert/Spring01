@@ -5,9 +5,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
 
+@Component
 public class AccuweatherProvider extends WeatherProviderBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccuweatherProvider.class);
@@ -23,7 +25,14 @@ public class AccuweatherProvider extends WeatherProviderBase {
 
 	// modellekkel inkabb
 
-	public static long getCityIdFromCityName(String cityName) throws Exception {
+	@Override
+	public float getTemperatureByCityName(String cityName) throws Exception {
+		long cityId = getCityIdFromCityName(cityName);
+		float temperature = getTheTemperature(cityId);
+		return temperature;
+	}
+	
+	private static long getCityIdFromCityName(String cityName) throws Exception {
 		String requestString = String.format(PATTERN_SEARCH_FOR_CITY, MAIN_PAGE, API_KEY, cityName);
 		String response = getResponseFromStringRequest(requestString);	
 
@@ -49,7 +58,7 @@ public class AccuweatherProvider extends WeatherProviderBase {
 		}
 	}
 
-	public static float getTheTemperature(long cityId) throws Exception {
+	private static float getTheTemperature(long cityId) throws Exception {
 		String requestString = String.format(PATTERN_SEARCH_FOR_CURRENT_CONDITIONS, MAIN_PAGE, cityId, API_KEY);
 		String response = getResponseFromStringRequest(requestString);
 

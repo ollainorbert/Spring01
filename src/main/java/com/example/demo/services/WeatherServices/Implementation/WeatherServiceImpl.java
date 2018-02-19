@@ -8,46 +8,32 @@ import org.springframework.stereotype.Service;
 import com.example.demo.services.WeatherService;
 import com.example.demo.services.WeatherServices.Config.WeatherProviderConfig;
 import com.example.demo.services.WeatherServices.Exceptions.ProviderEnumNotExistException;
-import com.example.demo.services.WeatherServices.Exceptions.WeatherException;
 import com.example.demo.services.WeatherServices.Providers.AccuweatherProvider;
+import com.example.demo.services.WeatherServices.Providers.DarkSkyProvider;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
-
 	private static final Logger logger = LoggerFactory.getLogger(WeatherServiceImpl.class);
 	
 	@Autowired
 	private WeatherProviderConfig weatherConfig;
+	
+	@Autowired
+	private AccuweatherProvider accuweatherProvider;
+	
+	@Autowired
+	private DarkSkyProvider darkSkyProvider;
 
 	@Override
 	public float getTemperatureFromCity(String cityName) throws Exception {
 		switch (weatherConfig.getWeatherConfig()) {
 		case PROVIDER_1:
-			return getTemperatureFromCity1(cityName);
+			return accuweatherProvider.getTemperatureByCityName(cityName);	
 		case PROVIDER_2:
-			return getTemperatureFromCity2(cityName);
+			return darkSkyProvider.getTemperatureByCityName(cityName);
 		default:
 			throw new ProviderEnumNotExistException();
 		}
-	}
-
-	private float getTemperatureFromCity1(String cityName) throws Exception {
-		long cityId = 0;
-		try {
-			cityId = AccuweatherProvider.getCityIdFromCityName(cityName);
-			return AccuweatherProvider.getTheTemperature(cityId);
-		}
-		catch (WeatherException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			throw e;
-		}
-	}
-
-	private float getTemperatureFromCity2(String cityName) throws WeatherException {
-
-		return 0;
 	}
 
 }
