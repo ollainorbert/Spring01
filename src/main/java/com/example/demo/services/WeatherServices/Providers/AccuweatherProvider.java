@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.exceptionLoggers.DemoExceptionLogger;
 import com.example.demo.models.AccuweatherCityModel;
 import com.example.demo.models.AccuweatherCurrentConditionsModel;
+import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
 
 @Component
 public class AccuweatherProvider extends WeatherProviderBase {
@@ -19,6 +21,8 @@ public class AccuweatherProvider extends WeatherProviderBase {
 
 	// currentconditions/v1/187176?apikey=0GqAoATWgoqRTeVR0dsbdBf4QDJF2iJK
 	private static final String PATTERN_SEARCH_FOR_CURRENT_CONDITIONS = "%s/currentconditions/v1/%d?apikey=%s";
+	
+	private static final String CITY_NOT_FOUND_STRING_VALUE = "[]";
 
 	@Override
 	public float getTemperatureByCityName(String cityName) throws Exception {
@@ -27,18 +31,24 @@ public class AccuweatherProvider extends WeatherProviderBase {
 		return temperature;
 	}
 
-	private static long getCityIdFromCityName(String cityName) {
+	private static long getCityIdFromCityName(String cityName) throws Exception {
 		String requestString = String.format(PATTERN_SEARCH_FOR_CITY, MAIN_PAGE, API_KEY, cityName);
 
 		try {
+			String response = WeatherProviderBase.getSimpleResponse(requestString);
+			if(response.equals(CITY_NOT_FOUND_STRING_VALUE)) {
+				throw new CityNotFoundException();
+			}
+			
 			AccuweatherCityModel cityModel = WeatherProviderBase
 					.getResponseModelFromRequestStringFromArray(requestString, AccuweatherCityModel[].class);
-			logger.info(cityModel.toString());
-			logger.info(cityModel.getKey());
+			
+			logger.info("City model: " + cityModel.toString());
+			logger.info("City Key: " + cityModel.getKey());
 
 			return Long.parseLong(cityModel.getKey());
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			DemoExceptionLogger.exceptionLogger(logger, e);
 			throw e;
 		}
 	}
@@ -52,21 +62,13 @@ public class AccuweatherProvider extends WeatherProviderBase {
 							AccuweatherCurrentConditionsModel[].class);
 			logger.info("AccuweatherCurrentConditionsModel: " + currentConditionsModel.toString());
 
-			if (currentConditionsModel.getTemperature() == null) {
-				logger.error("TEMPERATURE NULL!!");
-			}
-
-			if (currentConditionsModel.getTemperature().getMetric() == null) {
-				logger.error("METRIC NULL!!");
-			}
-
 			logger.info(currentConditionsModel.getTemperature().getMetric().getValue());
 			float celsius = Float.parseFloat(currentConditionsModel.getTemperature().getMetric().getValue());
 			logger.info("Celsius " + celsius);
 
 			return celsius;
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			DemoExceptionLogger.exceptionLogger(logger, e);
 			throw e;
 		}
 	}
