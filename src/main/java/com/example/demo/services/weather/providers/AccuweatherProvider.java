@@ -11,7 +11,13 @@ import com.example.demo.services.weather.exceptions.CityNotFoundException;
 
 @Component
 public class AccuweatherProvider extends WeatherProviderBase {
+	public AccuweatherProvider() {
+		super(PROVIDER_NAME);
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(AccuweatherProvider.class);
+
+	private static final String PROVIDER_NAME = "Accuweather";
 
 	private static final String API_KEY = "5bAppZQBPrWCDGjlWLZ3czPL4YnVxMeu";
 	private static final String MAIN_PAGE = "http://dataservice.accuweather.com";

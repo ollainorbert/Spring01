@@ -9,9 +9,28 @@ import com.example.demo.loggers.DemoExceptionLogger;
 import com.example.demo.models.WeatherModelBase;
 
 public abstract class WeatherProviderBase {
+	public WeatherProviderBase(String name) {
+		this.setName(name);
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(WeatherProviderBase.class);
 
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public abstract float getTemperatureByCityName(String cityName) throws Exception;
+
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 
 	protected static String getSimpleResponse(String requestString) {
 		RestTemplate restTemplate = new RestTemplate();

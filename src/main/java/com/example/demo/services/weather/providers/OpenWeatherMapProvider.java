@@ -11,7 +11,13 @@ import com.example.demo.services.weather.exceptions.CityNotFoundException;
 
 @Component
 public class OpenWeatherMapProvider extends WeatherProviderBase {
+	public OpenWeatherMapProvider() {
+		super(PROVIDER_NAME);
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(OpenWeatherMapProvider.class);
+
+	private static final String PROVIDER_NAME = "OpenWeather";
 
 	private static final String API_KEY = "1262de4ef0393d2001d2178574fa6d3a";
 
