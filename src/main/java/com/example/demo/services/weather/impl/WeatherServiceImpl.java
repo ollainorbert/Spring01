@@ -47,6 +47,7 @@ public class WeatherServiceImpl implements WeatherService {
 
 		logger.info(String.format(ServiceStrings.IMPL_OF_X_IS_INITED_AS_Y_PATTERN, "WeatherProvider",
 				weatherProvider.toString()));
+
 		return weatherProvider.getTemperatureByCityName(cityName);
 	}
 
