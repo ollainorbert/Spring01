@@ -1,13 +1,13 @@
-package com.example.demo.services.WeatherServices.Providers;
+package com.example.demo.services.weather.providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.exceptionLoggers.DemoExceptionLogger;
+import com.example.demo.loggers.DemoExceptionLogger;
 import com.example.demo.models.AccuweatherCityModel;
 import com.example.demo.models.AccuweatherCurrentConditionsModel;
-import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
+import com.example.demo.services.weather.exceptions.CityNotFoundException;
 
 @Component
 public class AccuweatherProvider extends WeatherProviderBase {
@@ -21,7 +21,7 @@ public class AccuweatherProvider extends WeatherProviderBase {
 
 	// currentconditions/v1/187176?apikey=0GqAoATWgoqRTeVR0dsbdBf4QDJF2iJK
 	private static final String PATTERN_SEARCH_FOR_CURRENT_CONDITIONS = "%s/currentconditions/v1/%d?apikey=%s";
-	
+
 	private static final String CITY_NOT_FOUND_STRING_VALUE = "[]";
 
 	@Override
@@ -36,13 +36,13 @@ public class AccuweatherProvider extends WeatherProviderBase {
 
 		try {
 			String response = WeatherProviderBase.getSimpleResponse(requestString);
-			if(response.equals(CITY_NOT_FOUND_STRING_VALUE)) {
+			if (response.equals(CITY_NOT_FOUND_STRING_VALUE)) {
 				throw new CityNotFoundException();
 			}
-			
+
 			AccuweatherCityModel cityModel = WeatherProviderBase
 					.getResponseModelFromRequestStringFromArray(requestString, AccuweatherCityModel[].class);
-			
+
 			logger.info("City model: " + cityModel.toString());
 			logger.info("City Key: " + cityModel.getKey());
 

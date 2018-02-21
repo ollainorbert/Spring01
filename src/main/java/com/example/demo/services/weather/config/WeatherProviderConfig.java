@@ -1,4 +1,4 @@
-package com.example.demo.services.WeatherServices.Config;
+package com.example.demo.services.weather.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

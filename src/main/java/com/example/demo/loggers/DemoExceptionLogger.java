@@ -1,4 +1,4 @@
-package com.example.demo.exceptionLoggers;
+package com.example.demo.loggers;
 
 import org.slf4j.Logger;
 import org.springframework.web.client.HttpClientErrorException;

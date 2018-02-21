@@ -1,4 +1,4 @@
-package com.example.demo.services.WeatherServices.Exceptions;
+package com.example.demo.services.weather.exceptions;
 
 public class CityNotFoundException extends WeatherException {
 	private static final long serialVersionUID = 3598627278293578102L;

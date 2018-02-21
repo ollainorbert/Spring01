@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.services.WeatherService;
-import com.example.demo.services.WeatherServices.Exceptions.WeatherException;
+import com.example.demo.services.weather.exceptions.WeatherException;
 
 @Controller
 public class WeatherController {
@@ -28,33 +28,32 @@ public class WeatherController {
 
 	@Autowired
 	private WeatherService weatherService;
-	
+
 	@RequestMapping(value = ROUTING_WEATHER_INFO, method = RequestMethod.GET)
 	public ModelAndView checkWeather() {
 		ModelAndView modelAndView = new ModelAndView(JSP_WEATHER_INFO);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = ROUTING_WEATHER_INFO_RESULT, method = RequestMethod.POST)
 	public ModelAndView weatherResult(@RequestParam(value = POST_PARAM_CITY_NAME) final String cityName) {
 		ModelAndView modelAndView = new ModelAndView(JSP_WEATHER_INFO_RESULT);
-		
+
 		String resultMessage = "";
 		try {
 			float result = weatherService.getTemperatureFromCity(cityName);
 			resultMessage = "" + result;
 			modelAndView.addObject(RESULT_ID, result);
-		}
-		catch (WeatherException e) {
+		} catch (WeatherException e) {
 			resultMessage = e.getMessage();
 			modelAndView.addObject(ERROR_ID, resultMessage);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			resultMessage = e.getMessage();
 			modelAndView.addObject(ERROR_ID, "Error!");
 		}
 		logger.info("RESULT MESSAGE: " + resultMessage);
-		
+
 		return modelAndView;
 	}
+
 }

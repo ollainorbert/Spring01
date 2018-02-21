@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.models.Human;
-import com.example.demo.services.HumanServices.Exceptions.EmptyFieldException;
-import com.example.demo.services.HumanServices.Exceptions.NameAlreadyTakenException;
+import com.example.demo.services.human.exceptions.EmptyFieldException;
+import com.example.demo.services.human.exceptions.NameAlreadyTakenException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

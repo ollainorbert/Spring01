@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.models.Human;
 import com.example.demo.services.HumanService;
-import com.example.demo.services.HumanServices.Exceptions.HumanException;
+import com.example.demo.services.human.exceptions.HumanException;
 
 @Controller
 public class DemoJSPController {

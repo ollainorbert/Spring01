@@ -1,4 +1,4 @@
-package com.example.demo.services.HumanServices.Implementation;
+package com.example.demo.services.human.impl;
 
 import java.util.List;
 //import org.springframework.util.StringUtils;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import com.example.demo.models.Human;
 import com.example.demo.repositories.HumanRepository;
 import com.example.demo.services.HumanService;
-import com.example.demo.services.HumanServices.Exceptions.EmptyFieldException;
-import com.example.demo.services.HumanServices.Exceptions.HumanException;
-import com.example.demo.services.HumanServices.Exceptions.InsertFailedException;
-import com.example.demo.services.HumanServices.Exceptions.NameAlreadyTakenException;
+import com.example.demo.services.human.exceptions.EmptyFieldException;
+import com.example.demo.services.human.exceptions.HumanException;
+import com.example.demo.services.human.exceptions.InsertFailedException;
+import com.example.demo.services.human.exceptions.NameAlreadyTakenException;
 
 @Service
 public class HumanServiceImpl implements HumanService {

@@ -1,13 +1,13 @@
-package com.example.demo.services.WeatherServices.Providers;
+package com.example.demo.services.weather.providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-import com.example.demo.exceptionLoggers.DemoExceptionLogger;
+import com.example.demo.loggers.DemoExceptionLogger;
 import com.example.demo.models.OpenWeatherMapModel;
-import com.example.demo.services.WeatherServices.Exceptions.CityNotFoundException;
+import com.example.demo.services.weather.exceptions.CityNotFoundException;
 
 @Component
 public class OpenWeatherMapProvider extends WeatherProviderBase {
@@ -25,7 +25,8 @@ public class OpenWeatherMapProvider extends WeatherProviderBase {
 		String requestString = String.format(REQUEST_PATTERN, cityName, API_KEY);
 
 		try {
-			OpenWeatherMapModel model = getResponseModelFromRequestString(requestString, OpenWeatherMapModel.class);
+			OpenWeatherMapModel model = WeatherProviderBase.getResponseModelFromRequestString(requestString,
+					OpenWeatherMapModel.class);
 
 			float celsius = model.getMain().getTempInCelsius();
 			return celsius;
