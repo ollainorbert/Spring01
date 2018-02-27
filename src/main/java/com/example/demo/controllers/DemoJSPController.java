@@ -22,13 +22,13 @@ public class DemoJSPController {
 	private static final String ROUTING_ADD = "/add";
 	private static final String ROUTING_ADD_RESULT = "/addResult";
 	private static final String ROUTING_FULL_LIST = "/listHumans";
-	
+
 	private static final String JSP_INDEX = "index";
 	private static final String JSP_INFORMATION = "information";
 	private static final String JSP_ADD = "add";
 	private static final String JSP_ADD_RESULT = "addResult";
 	private static final String JSP_FULL_LIST = "listHumans";
-	
+
 	private static final String POST_PARAM_ADD_RESULT = "name";
 	private static final String RESULT_ID = "result";
 	private static final String ERROR_ID = "error";
@@ -101,7 +101,7 @@ public class DemoJSPController {
 	}
 
 	@RequestMapping(value = ROUTING_ADD_RESULT, method = RequestMethod.POST)
-	public ModelAndView addResult(@RequestParam(value = POST_PARAM_ADD_RESULT) final String name) {	
+	public ModelAndView addResult(@RequestParam(value = POST_PARAM_ADD_RESULT) final String name) {
 		ModelAndView modelAndView = null;
 		modelAndView = new ModelAndView(JSP_ADD_RESULT);
 
@@ -123,7 +123,7 @@ public class DemoJSPController {
 	@RequestMapping(value = ROUTING_FULL_LIST, method = RequestMethod.GET)
 	public ModelAndView listHumans() {
 		String errorHeader = "Error! Try again later!";
-		
+
 		ModelAndView modelAndView = null;
 		modelAndView = new ModelAndView(JSP_FULL_LIST);
 
@@ -135,5 +135,5 @@ public class DemoJSPController {
 
 		return modelAndView;
 	}
-	
+
 }

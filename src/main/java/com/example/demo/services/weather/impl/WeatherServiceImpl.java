@@ -30,8 +30,6 @@ public class WeatherServiceImpl implements WeatherService {
 
 	@Override
 	public float getTemperatureFromCity(String cityName) throws Exception {
-		cityName = formatTheCityName(cityName);
-
 		WeatherProviderBase weatherProvider = null;
 
 		switch (weatherConfig.getWeatherConfig()) {
@@ -48,6 +46,7 @@ public class WeatherServiceImpl implements WeatherService {
 		logger.info(String.format(ServiceStrings.IMPL_OF_X_IS_INITED_AS_Y_PATTERN, "WeatherProvider",
 				weatherProvider.toString()));
 
+		cityName = formatTheCityName(cityName);
 		return weatherProvider.getTemperatureByCityName(cityName);
 	}
 
