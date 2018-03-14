@@ -6,6 +6,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.loggers.DemoExceptionLogger;
+import com.example.demo.models.UniversalWeatherModel;
 import com.example.demo.models.WeatherModelBase;
 
 public abstract class WeatherProviderBase {
@@ -26,6 +27,8 @@ public abstract class WeatherProviderBase {
 	}
 
 	public abstract float getTemperatureByCityName(String cityName) throws Exception;
+
+	public abstract UniversalWeatherModel getUniversalWeatherModelByCityName(String cityName) throws Exception;
 
 	@Override
 	public String toString() {

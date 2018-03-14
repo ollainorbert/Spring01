@@ -11,6 +11,9 @@
 	<p><c:out value="${error}"/></p>
 	<p><c:out value="${result}"/></p>
 	<br>
+	<img src="<c:url value="${iconUrl}"/>" alt="Description, that will added later, sorry." />
+	<br>
+	<br>
 	<a href="/weatherInfo">I want to check a city again!</a>
 	<br>
 	<br>

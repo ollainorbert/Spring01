@@ -7,6 +7,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import com.example.demo.loggers.DemoExceptionLogger;
 import com.example.demo.models.OpenWeatherMapModel;
+import com.example.demo.models.UniversalWeatherModel;
 import com.example.demo.services.weather.exceptions.CityNotFoundException;
 
 @Component("OpenWeatherMap")
@@ -34,7 +35,7 @@ public class OpenWeatherMapProvider extends WeatherProviderBase {
 			OpenWeatherMapModel model = WeatherProviderBase.getResponseModelFromRequestString(requestString,
 					OpenWeatherMapModel.class);
 
-			float celsius = model.getMain().getTempInCelsius();
+			float celsius = model.getPrimaryInfo().getTempInCelsius();
 			return celsius;
 		} catch (HttpClientErrorException e) {
 			DemoExceptionLogger.exceptionLoggerWithHttpClient(logger, e);
@@ -48,7 +49,33 @@ public class OpenWeatherMapProvider extends WeatherProviderBase {
 			DemoExceptionLogger.exceptionLogger(logger, e);
 			throw e;
 		}
+	}
 
+	@Override
+	public UniversalWeatherModel getUniversalWeatherModelByCityName(String cityName) throws Exception {
+		String requestString = String.format(REQUEST_PATTERN, cityName, API_KEY);
+
+		try {
+			OpenWeatherMapModel model = WeatherProviderBase.getResponseModelFromRequestString(requestString,
+					OpenWeatherMapModel.class);
+
+			UniversalWeatherModel universalWeatherModel = new UniversalWeatherModel();
+			universalWeatherModel.setCelsius(model.getPrimaryInfo().getTempInCelsius());
+			universalWeatherModel.setIconStringId(model.getWeather().getIconStringId());
+
+			return universalWeatherModel;
+		} catch (HttpClientErrorException e) {
+			DemoExceptionLogger.exceptionLoggerWithHttpClient(logger, e);
+
+			if (e.getResponseBodyAsString().contains(CITY_NOT_FOUND_IN_RESPNSE)) {
+				throw new CityNotFoundException();
+			} else {
+				throw e;
+			}
+		} catch (Exception e) {
+			DemoExceptionLogger.exceptionLogger(logger, e);
+			throw e;
+		}
 	}
 
 }

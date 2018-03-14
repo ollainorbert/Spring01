@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.models.UniversalWeatherModel;
 import com.example.demo.services.ServiceStrings;
 import com.example.demo.services.WeatherService;
 import com.example.demo.services.weather.config.WeatherProviderConfig;
@@ -30,6 +31,17 @@ public class WeatherServiceImpl implements WeatherService {
 
 	@Override
 	public float getTemperatureFromCity(String cityName) throws Exception {
+		cityName = formatTheCityName(cityName);
+		return getTheActualProvider().getTemperatureByCityName(cityName);
+	}
+
+	@Override
+	public UniversalWeatherModel getUniversalWeatherModelFromCity(String cityName) throws Exception {
+		cityName = formatTheCityName(cityName);
+		return getTheActualProvider().getUniversalWeatherModelByCityName(cityName);
+	}
+
+	private WeatherProviderBase getTheActualProvider() throws ProviderEnumNotExistException {
 		WeatherProviderBase weatherProvider = null;
 
 		switch (weatherConfig.getWeatherConfig()) {
@@ -46,8 +58,7 @@ public class WeatherServiceImpl implements WeatherService {
 		logger.info(String.format(ServiceStrings.IMPL_OF_X_IS_INITED_AS_Y_PATTERN, "WeatherProvider",
 				weatherProvider.toString()));
 
-		cityName = formatTheCityName(cityName);
-		return weatherProvider.getTemperatureByCityName(cityName);
+		return weatherProvider;
 	}
 
 	private String formatTheCityName(String cityName) {

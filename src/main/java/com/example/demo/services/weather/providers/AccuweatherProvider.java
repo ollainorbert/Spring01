@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.loggers.DemoExceptionLogger;
 import com.example.demo.models.AccuweatherCityModel;
 import com.example.demo.models.AccuweatherCurrentConditionsModel;
+import com.example.demo.models.UniversalWeatherModel;
 import com.example.demo.services.weather.exceptions.CityNotFoundException;
 
 @Component
@@ -35,6 +36,17 @@ public class AccuweatherProvider extends WeatherProviderBase {
 		long cityId = getCityIdFromCityName(cityName);
 		float temperature = getTheTemperature(cityId);
 		return temperature;
+	}
+
+	@Override
+	public UniversalWeatherModel getUniversalWeatherModelByCityName(String cityName) throws Exception {
+		long cityId = getCityIdFromCityName(cityName);
+		float temperature = getTheTemperature(cityId);
+
+		UniversalWeatherModel universalWeatherModel = new UniversalWeatherModel();
+		universalWeatherModel.setCelsius(temperature);
+
+		return universalWeatherModel;
 	}
 
 	private static long getCityIdFromCityName(String cityName) throws Exception {

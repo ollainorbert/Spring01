@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.models.UniversalWeatherModel;
 import com.example.demo.services.WeatherService;
 import com.example.demo.services.weather.exceptions.WeatherException;
 
@@ -41,9 +42,16 @@ public class WeatherController {
 
 		String resultMessage = "";
 		try {
-			float result = weatherService.getTemperatureFromCity(cityName);
-			resultMessage = "" + result;
+			// float result = weatherService.getTemperatureFromCity(cityName);
+			UniversalWeatherModel universalWeatherModel = weatherService.getUniversalWeatherModelFromCity(cityName);
+			float result = universalWeatherModel.getCelsius();
+			resultMessage = String.valueOf(result);
 			modelAndView.addObject(RESULT_ID, result);
+
+			if (universalWeatherModel.getIconStringId() != null) {
+				String iconUrl = universalWeatherModel.getIconStringId();
+				modelAndView.addObject("iconUrl", iconUrl);
+			}
 		} catch (WeatherException e) {
 			resultMessage = e.getMessage();
 			modelAndView.addObject(ERROR_ID, resultMessage);
